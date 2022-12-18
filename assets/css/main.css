@@ -91,6 +91,8 @@ header h1 {
 
 /* CONTAINER */
 .container {
+  display: flex;
+  gap: 24px;
   padding: 48px 24px;
 }
 
@@ -98,4 +100,28 @@ header h1 {
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 12px;
+}
+
+aside {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-area {
+  padding-bottom: 24px;
+  border-bottom: 2px solid #b6b6b6;
+}
+
+/* History Button */
+#history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+button.history-button {
+  line-height: 32px;
+  border-radius: 6px;
+  padding: 0 16px;
 }

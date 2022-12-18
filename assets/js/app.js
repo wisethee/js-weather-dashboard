@@ -30,13 +30,14 @@ const storeCity = (...props) => {
 };
 
 const buildHistoryElements = (searchHistory) => {
-  const historyList = $("<ul>");
+  const historyList = $("<div>");
   historyList.attr("id", "history-list");
   searchHistory.forEach((element) => {
     const { name } = element;
-    const historyListElement = $("<li>");
-    historyListElement.text(name);
-    historyList.append(historyListElement);
+    const historyButton = $("<button>");
+    historyButton.addClass("history-button");
+    historyButton.text(name);
+    historyList.append(historyButton);
   });
 
   history.append(historyList);
