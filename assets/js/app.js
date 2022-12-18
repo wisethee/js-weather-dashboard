@@ -2,6 +2,7 @@ const searchInput = $("#search-input");
 const searchButton = $("#search-button");
 
 const history = $("#history");
+const searchHistoryHeading = $("#search-history-heading");
 
 // Store city in localStorage
 const storeCity = (...props) => {
@@ -29,15 +30,22 @@ const storeCity = (...props) => {
   }
 };
 
+// Build a maximum of 9 elements to the DOM
 const buildHistoryElements = (searchHistory) => {
+  if (!searchHistoryHeading.innerHTML) {
+    searchHistoryHeading.text("Search History:");
+  }
+
   const historyList = $("<div>");
   historyList.attr("id", "history-list");
-  searchHistory.forEach((element) => {
-    const { name } = element;
-    const historyButton = $("<button>");
-    historyButton.addClass("history-button");
-    historyButton.text(name);
-    historyList.append(historyButton);
+  searchHistory.forEach((element, index) => {
+    if (index < 9) {
+      const { name } = element;
+      const historyButton = $("<button>");
+      historyButton.addClass("history-button");
+      historyButton.text(name);
+      historyList.append(historyButton);
+    }
   });
 
   history.append(historyList);
@@ -47,6 +55,7 @@ const displayHistory = () => {
   const searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
 
   if (!searchHistory) {
+    searchHistoryHeading.empty();
     return;
   }
 
