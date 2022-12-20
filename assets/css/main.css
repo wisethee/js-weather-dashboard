@@ -73,6 +73,7 @@ input {
   padding: 7px 16px;
   color: #565656;
   transition: all ease 0.2s;
+  width: 100%;
 }
 
 input:focus {
@@ -100,6 +101,7 @@ header h1 {
 /* CONTAINER */
 .container {
   display: flex;
+  flex-wrap: nowrap;
   gap: 24px;
   padding: 48px 24px;
 }
@@ -114,6 +116,11 @@ aside {
   display: flex;
   flex-direction: column;
   gap: 48px;
+  width: 30%;
+}
+
+.main {
+  width: 70%;
 }
 
 /* History Button */

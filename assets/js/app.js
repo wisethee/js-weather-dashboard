@@ -4,6 +4,11 @@ const clearHistoryElement = $("#clear-history");
 
 const historyElement = $("#history");
 
+const todayElement = $("#today");
+const forecastElement = $("#forecast");
+
+const todayDate = moment().format("DD/MM/YYYY");
+
 // Build history elements
 const buildHistoryElements = (searchHistory) => {
   const historyListElement = $("<div>");
@@ -17,6 +22,28 @@ const buildHistoryElements = (searchHistory) => {
   });
 
   historyElement.append(historyListElement);
+};
+
+// build forecast elements
+const buildForecastElements = (props) => {
+  const { name, forecast } = props;
+  const {
+    main: { temp, humidity },
+    wind: { speed },
+    weather,
+  } = forecast;
+
+  todayElement.empty();
+  todayElement.append($("<h5>").text(`${name} (${todayDate})`));
+  todayElement.append(
+    $("<img>").attr(
+      "src",
+      `http://openweathermap.org/img/w/${weather[0].icon}.png`
+    )
+  );
+  todayElement.append($("<div>").text(temp));
+  todayElement.append($("<div>").text(speed));
+  todayElement.append($("<div>").text(humidity));
 };
 
 // If exists return searchHistory object from localStorage
@@ -77,6 +104,18 @@ const updateHistory = () => {
   buildHistoryElements(searchHistory);
 };
 
+// get forecast
+const getForecast = (city) => {
+  const searchHistory = getSearchHistory().find((c) => c.name === city);
+  const { lat, lon } = searchHistory;
+  const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=9e044849e25b035edaacc2d88bca02e1&units=metric `;
+  const method = "GET";
+  $.ajax(url, method).then((response) => {
+    const { city, list } = response;
+    buildForecastElements({ name: city.name, forecast: list[0] });
+  });
+};
+
 // get city location, latitude and longitude and store dta in localStorage
 const getCity = (city) => {
   const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=9e044849e25b035edaacc2d88bca02e1`;
@@ -87,8 +126,12 @@ const getCity = (city) => {
     const { name, lat, lon } = city;
     storeCity({ name, lat, lon });
     updateHistory();
+    getForecast(name);
   });
 };
+
+// update DOM
+const updateDOM = () => {};
 
 // handle search button
 const searchButtonClickHandler = (event) => {
