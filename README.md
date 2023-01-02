@@ -2,6 +2,8 @@
 
 ## Project Description
 
+The application leverages OpenWeather API to pull weather and forecast informaton for cities and provides updated weather data and forecasting to help you anticipate and prepare for your trip.
+
 [Demo URL](https://wisethee.github.io/js-weather-dashboard/)
 
 ![Screenshot](https://github.com/wisethee/js-weather-dashboard/blob/main/assets/images/cover.png?raw=true)
