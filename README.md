@@ -4,7 +4,7 @@
 
 [Demo URL](https://wisethee.github.io/js-weather-dashboard/)
 
-![Screenshot](https://github.com/wisethee/js-work-day-scheduler/blob/main/assets/images/cover.jpg?raw=true)
+![Screenshot](https://github.com/wisethee/js-weather-dashboard/blob/main/assets/images/cover.png?raw=true)
 
 ## TO DO
 
