@@ -11,6 +11,11 @@
   box-sizing: border-box;
 }
 
+h5 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
 input,
 textarea,
 select {
@@ -162,4 +167,20 @@ button.clear-history-button {
 /* HIDE */
 .hidden {
   display: none;
+}
+
+/* Forecast */
+#today {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border: 1px solid #00d1b2;
+  border-radius: 6px;
+}
+
+.forecast-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }

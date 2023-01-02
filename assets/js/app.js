@@ -25,7 +25,7 @@ const buildHistoryElements = (searchHistory) => {
 };
 
 // build forecast elements
-const buildForecastElements = (props) => {
+const buildTodayForecastElements = (props) => {
   const { name, forecast } = props;
   const {
     main: { temp, humidity },
@@ -34,16 +34,19 @@ const buildForecastElements = (props) => {
   } = forecast;
 
   todayElement.empty();
-  todayElement.append($("<h5>").text(`${name} (${todayDate})`));
-  todayElement.append(
+  const forecastHeader = $("<div>");
+  forecastHeader.addClass("forecast-header");
+  forecastHeader.append($("<h5>").text(`${name} (${todayDate})`));
+  forecastHeader.append(
     $("<img>").attr(
       "src",
       `http://openweathermap.org/img/w/${weather[0].icon}.png`
     )
   );
-  todayElement.append($("<div>").text(temp));
-  todayElement.append($("<div>").text(speed));
-  todayElement.append($("<div>").text(humidity));
+  todayElement.append(forecastHeader);
+  todayElement.append($("<span>").addClass("").text(`Temp: ${temp} ℃`));
+  todayElement.append($("<span>").addClass().text(`Wind: ${speed} KPH`));
+  todayElement.append($("<span>").addClass().text(`Humidity: ${humidity}%`));
 };
 
 // If exists return searchHistory object from localStorage
@@ -112,7 +115,7 @@ const getForecast = (city) => {
   const method = "GET";
   $.ajax(url, method).then((response) => {
     const { city, list } = response;
-    buildForecastElements({ name: city.name, forecast: list[0] });
+    buildTodayForecastElements({ name: city.name, forecast: list[0] });
   });
 };
 
