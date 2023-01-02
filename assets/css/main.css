@@ -11,6 +11,7 @@
   box-sizing: border-box;
 }
 
+
 h5 {
   font-size: 18px;
   font-weight: 700;
@@ -24,6 +25,12 @@ select {
 
 :where([hidden]) {
   display: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 body {
@@ -106,9 +113,11 @@ header h1 {
 /* CONTAINER */
 .container {
   display: flex;
-  flex-wrap: nowrap;
+  flex-direction: column;
+  /* flex-wrap: nowrap; */
   gap: 24px;
   padding: 48px 24px;
+  width: 100%;
 }
 
 .container h2 {
@@ -121,11 +130,14 @@ aside {
   display: flex;
   flex-direction: column;
   gap: 48px;
-  width: 30%;
+  width: 100%;
 }
 
 .main {
-  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  width: 100%;
 }
 
 /* History Button */
@@ -164,23 +176,88 @@ button.clear-history-button {
   border-color: transparent;
 }
 
-/* HIDE */
-.hidden {
-  display: none;
-}
-
 /* Forecast */
 #today {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
   padding: 1.5rem;
   border: 1px solid #00d1b2;
   border-radius: 6px;
 }
 
-.forecast-header {
+#forecast {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   gap: 1.5rem;
+  width: 100%;
+}
+
+.forecast-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.forecast-header-row,
+.forecast-header-col {
+  display: flex;
+}
+
+.forecast-header-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.forecast-header-col {
+  flex-direction: column;
+}
+
+.forecast-header-col img {
+  width: 48px;
+}
+
+
+/* HIDE */
+.hidden {
+  display: none !important;
+}
+
+#forecast .forecast-card {
+  background-color: #00d1b2;
+  color: #ffffff;
+  padding: 1rem;
+  border-radius: 6px;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  #forecast .forecast-card {
+    width: calc(50% - 0.75rem);
+  }
+}
+
+@media (min-width: 906px) {
+  .container {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  aside {
+    width: 30%;
+  }
+  .main {
+    width: 70%;
+  }
+
+  #forecast .forecast-card {
+    width: calc(33.33% - 1.5rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  #forecast {
+      flex-wrap: nowrap;
+  }
+
+  #forecast .forecast-card {
+    width: calc(20% );
+  }
 }

@@ -9,7 +9,7 @@ const forecastElement = $("#forecast");
 
 const todayDate = moment().format("DD/MM/YYYY");
 
-// Build history elements
+// build history elements
 const buildHistoryElements = (searchHistory) => {
   const historyListElement = $("<div>");
   historyListElement.attr("id", "history-list");
@@ -24,29 +24,54 @@ const buildHistoryElements = (searchHistory) => {
   historyElement.append(historyListElement);
 };
 
-// build forecast elements
-const buildTodayForecastElements = (props) => {
-  const { name, forecast } = props;
+// build today forecast elements
+const buildDailyForecastElements = (props) => {
+  const { name, forecast, element, showName } = props;
   const {
+    dt_txt,
     main: { temp, humidity },
     wind: { speed },
     weather,
   } = forecast;
 
-  todayElement.empty();
-  const forecastHeader = $("<div>");
-  forecastHeader.addClass("forecast-header");
-  forecastHeader.append($("<h5>").text(`${name} (${todayDate})`));
+  const dailyDate = moment(dt_txt).format("DD/MM/YYYY");
+
+  let displayTitle = "";
+  let headerClass = "";
+
+  if (!showName) {
+    displayTitle = `${dailyDate}`;
+    headerClass = "forecast-header-col";
+  } else {
+    displayTitle = `${name} (${todayDate})`;
+    headerClass = "forecast-header-row";
+  }
+
+  const forecastCard = $("<div>").addClass("forecast-card");
+  const forecastHeader = $("<div>").addClass(headerClass);
+  forecastHeader.append($("<h5>").text(displayTitle));
   forecastHeader.append(
     $("<img>").attr(
       "src",
       `http://openweathermap.org/img/w/${weather[0].icon}.png`
     )
   );
-  todayElement.append(forecastHeader);
-  todayElement.append($("<span>").addClass("").text(`Temp: ${temp} ℃`));
-  todayElement.append($("<span>").addClass().text(`Wind: ${speed} KPH`));
-  todayElement.append($("<span>").addClass().text(`Humidity: ${humidity}%`));
+  forecastCard.append(forecastHeader);
+  forecastCard.append($("<span>").addClass("").text(`Temp: ${temp} ℃`));
+  forecastCard.append($("<span>").addClass().text(`Wind: ${speed} KPH`));
+  forecastCard.append($("<span>").addClass().text(`Humidity: ${humidity}%`));
+  element.append(forecastCard);
+};
+
+// build forecast elements
+const buildForecastElements = (props) => {
+  props.forEach((day) => {
+    buildDailyForecastElements({
+      forecast: day,
+      element: forecastElement,
+      showName: false,
+    });
+  });
 };
 
 // If exists return searchHistory object from localStorage
@@ -107,6 +132,13 @@ const updateHistory = () => {
   buildHistoryElements(searchHistory);
 };
 
+const resetDashboardElements = () => {
+  todayElement.empty();
+  forecastElement.empty();
+  todayElement.removeClass("hidden");
+  forecastElement.removeClass("hidden");
+};
+
 // get forecast
 const getForecast = (city) => {
   const searchHistory = getSearchHistory().find((c) => c.name === city);
@@ -115,7 +147,18 @@ const getForecast = (city) => {
   const method = "GET";
   $.ajax(url, method).then((response) => {
     const { city, list } = response;
-    buildTodayForecastElements({ name: city.name, forecast: list[0] });
+    const dailyForecast = [];
+    list.forEach((element, index) => {
+      if (index % 8 === 0) dailyForecast.push(element);
+    });
+    resetDashboardElements();
+    buildDailyForecastElements({
+      name: city.name,
+      forecast: list[0],
+      element: todayElement,
+      showName: true,
+    });
+    buildForecastElements(dailyForecast);
   });
 };
 
