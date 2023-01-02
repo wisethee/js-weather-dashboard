@@ -9,6 +9,17 @@ const forecastElement = $("#forecast");
 
 const todayDate = moment().format("DD/MM/YYYY");
 
+// show forecast when a history button is clicked
+const historyButtonHandler = (event) => {
+  event.preventDefault();
+
+  const {
+    currentTarget: { innerHTML },
+  } = event;
+
+  getCity(innerHTML);
+};
+
 // build history elements
 const buildHistoryElements = (searchHistory) => {
   const historyListElement = $("<div>");
@@ -18,6 +29,7 @@ const buildHistoryElements = (searchHistory) => {
     const historyButton = $("<button>");
     historyButton.addClass("history-button");
     historyButton.text(name);
+    historyButton.on("click", historyButtonHandler);
     historyListElement.append(historyButton);
   });
 
@@ -147,10 +159,17 @@ const getForecast = (city) => {
   const method = "GET";
   $.ajax(url, method).then((response) => {
     const { city, list } = response;
+
     const dailyForecast = [];
+
+    let count = 4;
     list.forEach((element, index) => {
-      if (index % 8 === 0) dailyForecast.push(element);
+      if (index === count) {
+        dailyForecast.push(element);
+        count = count + 8;
+      }
     });
+
     resetDashboardElements();
     buildDailyForecastElements({
       name: city.name,
