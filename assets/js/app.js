@@ -65,7 +65,7 @@ const buildDailyForecastElements = (props) => {
   forecastHeader.append(
     $("<img>").attr(
       "src",
-      `http://openweathermap.org/img/w/${weather[0].icon}.png`
+      `https://openweathermap.org/img/w/${weather[0].icon}.png`
     )
   );
   forecastCard.append(forecastHeader);
@@ -155,7 +155,7 @@ const resetDashboardElements = () => {
 const getForecast = (city) => {
   const searchHistory = getSearchHistory().find((c) => c.name === city);
   const { lat, lon } = searchHistory;
-  const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=9e044849e25b035edaacc2d88bca02e1&units=metric `;
+  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=9e044849e25b035edaacc2d88bca02e1&units=metric `;
   const method = "GET";
   $.ajax(url, method).then((response) => {
     const { city, list } = response;
@@ -183,7 +183,7 @@ const getForecast = (city) => {
 
 // get city location, latitude and longitude and store dta in localStorage
 const getCity = (city) => {
-  const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=9e044849e25b035edaacc2d88bca02e1`;
+  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=9e044849e25b035edaacc2d88bca02e1`;
   const method = "GET";
 
   $.ajax({ url, method }).then((response) => {
